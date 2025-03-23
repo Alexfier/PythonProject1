@@ -1,34 +1,38 @@
+
 import json
 import os
+from typing import Any
 
-from src.classes import Category, Product
+from src.category import Category
+from src.product import Product
 
 
-def load_json_data(path: str) -> list:
-    """вовзращает python-объект из файла json"""
+def read_json_file(path: str) -> Any:
+    """Конвертирует файл json в словарь"""
     full_path = os.path.abspath(path)
-    with open(full_path, "r", encoding="utf-8") as file:
+    with open(full_path, "r", encoding="UTF-8") as file:
         data = json.load(file)
-        return data
+    return data
 
 
-def get_classes_from_json(data: list) -> list:
-    """возвращает список словарей по экземплярам класса Product и Category из списка словарей"""
-    try:
-        categories_list = []
-        for category in data:
-            prod_list = []
-            for product in category["products"]:
-                prod_list.append(
-                    Product(
-                        product["name"],
-                        product["description"],
-                        product["quantity"],
-                        product["price"],
-                    )
-                )
-            category["products"] = prod_list
-            categories_list.append(Category(category["name"], category["description"], category["products"]))
-        return categories_list
-    except Exception:
-        return []
+result = read_json_file("..//data/products.json")
+
+
+def create_object_from_json(data: dict) -> Any:
+    """Преобразует данные из словаря в объекты класса"""
+    categories = []
+    for category in data:
+        products = []
+        for product in category["products"]:
+            products.append(Product(**product))
+            name = category["name"]
+            description = category["description"]
+            # price = category["price"]
+            # quantity = category["quantity"]
+            category_instance = Category(name, description, products)
+            categories.append(category_instance)
+        return categories
+
+
+result_2 = create_object_from_json(result)
+print(result_2)
