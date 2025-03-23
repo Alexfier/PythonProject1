@@ -1,4 +1,3 @@
-
 from src.product import Product
 
 def test_product(first_product, second_product):
