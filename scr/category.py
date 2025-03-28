@@ -1,30 +1,49 @@
-from oop.product import Product
 
+from typing import Any
+from src.product import Product
 
 class Category:
-    def __init__(self, name: str, description: str, products: list):
-        self.name = name
-        self.description = description
-        self.__products = products if products else []
-        Category.category_count += 1
-        Category.product_count += len(self.__products)
+    """Категория товара"""
 
     category_count = 0
     product_count = 0
 
-    @property
-    def products(self):
-        return self.__products
+    name: str
+    description: str
+    products: list
 
-    def add_product(self, new_product: Product):
-        self.__products.append(new_product)
+    def __init__(self, name, description, products):
+        self.name = name
+        self.description = description
+        self.__products = products
+        Category.category_count += 1
+        Category.product_count += len(products)
+        print(Category.product_count)
+
+    def __str__(self):
+        total_products = 0
+        for product in self.__products:
+            total_products += product.quantity
+        return f"{self.name}, количество продуктов: {total_products} шт."
+
+    def add_product(self, product: Product) -> Any:
+        self.__products.append(product)
         Category.product_count += 1
 
     @property
-    def product_list(self):
-        product_str = ""
-        for product in self.products:
-            product_str += (
-                f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
-            )
-        return product_str
+    def get_product_list(self) -> str:
+        product_list = ""
+        for product in self.__products:
+            product_list += f"{str(product)}\n"
+        return product_list
+
+    @property
+    def products(self) -> list:
+        products_list = []
+        for product in self.__products:
+            products_list.append(product)
+        return products_list
+
+
+# result = Category("Product", "Description", ["product1", "product2", "product3"])
+# print(result)
