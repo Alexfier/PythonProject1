@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = YOUR_MODULE_NAME
+
+[report]
+omit =
+    */tests/*
