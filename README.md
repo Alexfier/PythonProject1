@@ -57,3 +57,6 @@ Product
 #pytest
  
 #assert
+ 
+Установите зависимости:
+pip install -r requirements.txt
